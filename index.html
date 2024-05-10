@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+	
+	<!-- <title>可點擊網格</title> 	// Ex3.2 -->
+    <title>動態可點擊網格</title> 
+
+    <style>
+        * {
+            font-family: Arial; 
+        }
+
+        header, footer {
+            background-color: #666666; 
+            color: #FFFFFF; 
+            text-align: center; 
+            padding: 10px; 
+        }
+
+        main {
+            padding: 10px 0; 
+        }
+
+        .grid-container {
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr);		/* !! */
+            grid-gap: 10px; 
+            width: 240px; 								/* !! */
+            margin: auto; 
+        }
+
+        .grid-item {
+            display: grid; 
+            width: 80px; 
+            height: 80px; 
+            justify-content: center; 
+            align-items: center; 
+            background-color: #F0F0F0; 
+            cursor: pointer; 
+        }
+
+        .yellow {
+            background-color: #ff0; 
+        }
+        
+        .green {
+            background-color: #0f0; 
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <!-- ><h1>可點擊網格</h1> 	// Ex3.2 -->
+	<h1>動態可點擊網格</h1> 
+</header>
+
+<main>
+    <div class="grid-container" id="grid-container">
+        <!--
+        
+        <div id="grid1" class="grid-item">1</div>
+        <div id="grid2" class="grid-item">2</div>
+        <div id="grid3" class="grid-item">3</div>
+        <div id="grid4" class="grid-item">4</div>
+        <div id="grid5" class="grid-item">5</div>
+        <div id="grid6" class="grid-item">6</div>
+        <div id="grid7" class="grid-item">7</div>
+        <div id="grid8" class="grid-item">8</div>
+        <div id="grid9" class="grid-item">9</div>
+        
+        Ex3.2
+        -->
+    </div>
+</main>
+
+<footer>
+    <b>單元五練習三</b> 
+</footer>
+
+<script>
+	function toggleGridSelection(event) {
+		var grid = event.target; 
+		var clickCount = grid.getAttribute('data-click-count') || 0;
+		
+		clickCount = parseInt(clickCount, 10);
+		//grid.classList.remove('yellow');			// Ex3.1
+		grid.classList.remove('yellow','green');	// Ex3.1
+		
+		switch (clickCount) {
+			case 0:
+				grid.classList.add('yellow');
+				break;
+			case 1:
+				grid.classList.add('green');		// Ex3.1
+				break;
+			case 2:
+				clickCount = -1;
+				break;
+		}
+	
+		clickCount += 1;	
+		grid.setAttribute('data-click-count', clickCount.toString());
+	}
+	
+	const gridSize = prompt('請輸入網格尺寸（例如：3 表示 3x3 網格）:');					// Ex3.2
+	const gridContainer = document.getElementById('grid-container');				// Ex3.2
+  	gridContainer.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;			// Ex3.2
+  	//gridContainer.style.gridTemplateColumns = 'repeat(' + gridSize + ', 1fr)';	// Ex3.2
+	gridContainer.style.width = `${gridSize * 80 + (gridSize - 1) * 10}px`;			// Ex3.2
+        
+	for (let i = 1; i <= gridSize * gridSize; i++) {								// Ex3.2
+		const gridItem = document.createElement('div');								// Ex3.2
+		gridItem.className = 'grid-item';											// Ex3.2
+		gridItem.textContent = i;													// Ex3.2
+		gridContainer.appendChild(gridItem);										// Ex3.2
+	}																				// Ex3.2
+        
+	document.querySelectorAll('.grid-item').forEach(function (grid) {
+		grid.addEventListener('click', toggleGridSelection);
+	});
+</script>
+
+</body>
+</html>
